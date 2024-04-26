@@ -1,0 +1,56 @@
+{
+  "name": "typescript-mongodb-template",
+  "version": "1.0.0",
+  "description": "Template project using TypeScript and MongoDB",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "start:dev": "tsx watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "eslint ./src --ext .ts",
+    "seed": "tsx src/seeds/seedData.ts"
+  },
+  "keywords": [
+    "typescript",
+    "mongodb",
+    "docker",
+    "template"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.3",
+    "mongoose": "^8.2.0",
+    "npm-check-updates": "^16.14.15",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.11.24",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.3.3",
+    "uuid": "^9.0.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "quotes": [2, "double", { "avoidEscape": true }]
+    }
+  }
+}

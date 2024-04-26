@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  mongo1:
+    image: mongo:5
+    container_name: mongo1
+    command: mongod --replSet rs0 --bind_ip_all --auth --keyFile /etc/mongo-keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: foo
+      MONGO_INITDB_ROOT_PASSWORD: bar
+      MONGODB_ADVERTISED_HOSTNAME: mongo1
+      MONGO_INITDB_DATABASE: chaos-beyond-hell
+    ports:
+      - "27017:27017"
+    networks:
+      - mongoCluster
+    volumes:
+      - ./data/db1:/data/db
+      - ./mongodb-keyfile.key:/etc/mongo-keyfile
+    healthcheck:
+      test: echo "use admin | db.auth("foo", "bar") | try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}, {_id:1,host:'localhost:27018'}, {_id:2,host:'localhost:27019'}]}) }" | mongosh --port 27017 --quiet
+      interval: 5s
+      timeout: 30s
+      start_period: 0s
+      start_interval: 1s
+      retries: 30
+
+  mongo2:
+    image: mongo:5
+    container_name: mongo2
+    command: mongod --replSet rs0 --bind_ip_all --auth --keyFile /etc/mongo-keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: foo
+      MONGO_INITDB_ROOT_PASSWORD: bar
+      MONGODB_ADVERTISED_HOSTNAME: mongo2
+      MONGO_INITDB_DATABASE: chaos-beyond-hell
+    ports:
+      - "27018:27017"
+    networks:
+      - mongoCluster
+    volumes:
+      - ./data/db2:/data/db
+      - ./mongodb-keyfile.key:/etc/mongo-keyfile
+
+  mongo3:
+    image: mongo:5
+    container_name: mongo3
+    command: mongod --replSet rs0 --bind_ip_all --auth --keyFile /etc/mongo-keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: foo
+      MONGO_INITDB_ROOT_PASSWORD: bar
+      MONGODB_ADVERTISED_HOSTNAME: mongo3
+      MONGO_INITDB_DATABASE: chaos-beyond-hell
+    ports:
+      - "27019:27017"
+    networks:
+      - mongoCluster
+    volumes:
+      - ./data/db3:/data/db
+      - ./mongodb-keyfile.key:/etc/mongo-keyfile
+
+networks:
+  mongoCluster:
+    driver: bridge
